@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <a href="{{ url_for('lessons') }}" class="btn"
+        style="background-color: transparent; color: var(--dark-green); border: 2px solid var(--dark-green); padding: 5px 15px; margin-bottom: 20px;">⬅
+        Geri qayıt</a>
+
+    <h1>{{ lesson.title }}</h1>
+    <div style="background: #fff; padding: 20px; border-radius: 15px; font-size: 1.2rem; line-height: 1.6;">
+        <!-- Simple content rendering. In a real app, maybe unsafe HTML if trusted admin. -->
+        {{ lesson.content }}
+    </div>
+
+    <hr style="margin: 30px 0; border: none; border-top: 2px dashed #ccc;">
+
+    <div class="quiz-section" style="background-color: var(--sunny-yellow); padding: 20px; border-radius: 15px;">
+        <h2>📝 Biliyi Yoxla!</h2>
+        <p style="font-size: 1.2rem;"><strong>Sual:</strong> {{ lesson.question_text }}</p>
+
+        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+            <button class="btn quiz-option" data-option="A"
+                style="background-color: #fff; color: #333; text-align: left; border: 2px solid var(--primary-green);">
+                A) {{ lesson.option_a }}
+            </button>
+            <button class="btn quiz-option" data-option="B"
+                style="background-color: #fff; color: #333; text-align: left; border: 2px solid var(--primary-green);">
+                B) {{ lesson.option_b }}
+            </button>
+        </div>
+
+        <div id="feedback" style="display:none; margin-top: 20px; padding: 15px; border-radius: 10px;">
+            <h3 id="feedback-title"></h3>
+            <p id="feedback-text"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const lessonId = {{ lesson.id }};
+    const options = document.querySelectorAll('.quiz-option');
+    const feedbackDiv = document.getElementById('feedback');
+    const feedbackTitle = document.getElementById('feedback-title');
+    const feedbackText = document.getElementById('feedback-text');
+
+    options.forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const selectedOption = btn.dataset.option;
+
+            // Disable buttons
+            options.forEach(b => b.disabled = true);
+
+            const response = await fetch('/api/check_answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    lesson_id: lessonId,
+                    option: selectedOption
+                })
+            });
+
+            const data = await response.json();
+
+            feedbackDiv.style.display = 'block';
+            if (data.correct) {
+                feedbackDiv.style.backgroundColor = '#d4edda';
+                feedbackDiv.style.color = '#155724';
+                feedbackTitle.innerText = '🎉 Afərin! Düzgündür!';
+                feedbackText.innerText = data.explanation; // Show explanation only when correct
+            } else {
+                feedbackDiv.style.backgroundColor = '#f8d7da';
+                feedbackDiv.style.color = '#721c24';
+                feedbackTitle.innerText = '😕 Oyy, səhv oldu...';
+                feedbackText.innerText = "Yenidən cəhd et və ya dərsi təkrar oxu."; // Generic message
+
+                // Re-enable buttons so they can try again? 
+                // User said "first correct answer gets points", so backend handles scoring limitation.
+                // But frontend should probably let them try again to learn.
+                setTimeout(() => {
+                    options.forEach(b => b.disabled = false);
+                }, 1000);
+            }
+        });
+    });
+</script>
+{% endblock %}
