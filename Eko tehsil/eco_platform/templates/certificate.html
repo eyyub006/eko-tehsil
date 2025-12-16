@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="az">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sertifikat - {{ user.username }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Nunito:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .certificate-container {
+            background: white;
+            width: 800px;
+            height: 600px;
+            padding: 40px;
+            text-align: center;
+            border: 20px solid #1A936F;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .inner-border {
+            border: 5px solid #FFD166;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 60px;
+            color: #1A936F;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 40px;
+            margin: 20px 0;
+            color: #114B5F;
+            text-decoration: underline;
+        }
+
+        p {
+            font-size: 20px;
+            color: #555;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        .stamp {
+            margin-top: 30px;
+            font-size: 50px;
+        }
+
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        @media print {
+            .print-btn {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .certificate-container {
+                box-shadow: none;
+                border-width: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="certificate-container">
+        <div class="inner-border">
+            <div class="content">
+                <p>Bu sertifikat təqdim edilir:</p>
+                <h1>{{ user.username }} {{ user.lastname }}</h1>
+                <p style="font-size: 1.2rem; color: #555; margin-top: -10px; margin-bottom: 20px;">
+                    {{ user.school }} / {{ user.grade }} sinif şagirdi
+                </p>
+                <p>Ekoloji bilikləri uğurla mənimsədiyinə və <br>
+                    təbiətin qorunmasında göstərdiyi fəallığa görə <b>"Təbiət Qoruyucusu"</b> adına layiq görülmüşdür.
+                </p>
+            </div>
+
+            <div class="stamp">🌳🌍🏅</div>
+
+            <p style="margin-top: 40px; font-size: 16px;">Tarix: 05.12.2025</p>
+        </div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">🖨️ Çap et</button>
+
+</body>
+
+</html>

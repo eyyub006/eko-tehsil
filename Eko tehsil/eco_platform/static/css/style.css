@@ -1,0 +1,238 @@
+:root {
+    --primary-green: #88D498;
+    --dark-green: #1A936F;
+    --sky-blue: #C6E2E9;
+    --ocean-blue: #114B5F;
+    --sunny-yellow: #F3E9D2;
+    --alert-red: #FF6B6B;
+    --font-main: 'Nunito', 'Segoe UI', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    background-color: var(--sky-blue);
+    font-family: var(--font-main);
+    color: var(--ocean-blue);
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    background-color: var(--dark-green);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: background 0.3s;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    min-height: 80vh;
+}
+
+h1,
+h2,
+h3 {
+    text-align: center;
+    color: var(--dark-green);
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: var(--primary-green);
+    color: var(--ocean-blue);
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 2rem;
+}
+
+.card {
+    background: var(--sunny-yellow);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.card:hover {
+    border-color: var(--dark-green);
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    color: var(--ocean-blue);
+    font-size: 0.9rem;
+}
+
+/* --- Mobile Responsiveness --- */
+/* Mobile Menu Toggle */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+@media (max-width: 768px) {
+
+    /* Navigation */
+    nav {
+        flex-direction: row;
+        /* Keep row for logo + burger */
+        padding: 1rem 2rem;
+        position: relative;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    nav ul {
+        display: none;
+        /* Hide by default */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        /* Below navbar */
+        left: 0;
+        background-color: var(--dark-green);
+        padding: 20px 0;
+        z-index: 100;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Show when active */
+    nav ul.active {
+        display: flex;
+    }
+
+    nav ul li {
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Layouts */
+    .container {
+        padding: 10px;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+        /* Single column on mobile */
+    }
+
+    /* Games */
+    #game-area {
+        min-height: auto;
+    }
+
+    /* Sorting Game Specifics */
+    #game-area div[style*="justify-content: center"] {
+        flex-wrap: wrap;
+        /* Bins wrap */
+    }
+
+    .bin {
+        width: 80px !important;
+        height: 100px !important;
+        font-size: 0.8rem;
+    }
+
+    /* Environment Game */
+    .env-option {
+        width: 100% !important;
+        margin-bottom: 20px;
+    }
+
+    /* Forms */
+    form div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    form input {
+        width: 100% !important;
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 2rem;
+    }
+
+    /* Certificates logic might need hiding print button or adjusting scale */
+    .certificate-container {
+        width: 95% !important;
+        height: auto !important;
+        border-width: 10px !important;
+        padding: 10px !important;
+    }
+
+    .certificate-container h1 {
+        font-size: 30px !important;
+    }
+}

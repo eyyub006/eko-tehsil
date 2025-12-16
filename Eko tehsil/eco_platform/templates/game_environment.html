@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="text-align: center;">
+    <a href="{{ url_for('games') }}" class="btn"
+        style="background: transparent; color: var(--dark-green); border: 2px solid var(--dark-green); padding: 5px 15px; margin-bottom: 20px; display: inline-block;">⬅
+        Oyunlara Qayıt</a>
+    <h1>Təmiz vs Çirkli Mühit 🌳</h1>
+    <p>Hansı mühit daha sağlamdır? Düzgün şəkli seç!</p>
+    <div style="font-size: 1.5rem; margin: 20px;">Xal: <span id="score">0</span></div>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 50px;">
+        <div class="env-option" onclick="checkAnswer(true)"
+            style="cursor: pointer; padding: 20px; background: #fff; border-radius: 15px; border: 4px solid #eee; width: 300px; transition: transform 0.2s;">
+            <div style="font-size: 80px;">🌳🌷🐝</div>
+            <h3>Mənzərə A</h3>
+        </div>
+
+        <div class="env-option" onclick="checkAnswer(false)"
+            style="cursor: pointer; padding: 20px; background: #fff; border-radius: 15px; border: 4px solid #eee; width: 300px; transition: transform 0.2s;">
+            <div style="font-size: 80px;">🏭🌫️🥀</div>
+            <h3>Mənzərə B</h3>
+        </div>
+    </div>
+
+    <div id="message" style="margin-top: 30px; font-size: 1.5rem; font-weight: bold;"></div>
+
+    <button onclick="location.reload()" class="btn" style="margin-top: 20px; display: none;" id="restart-btn">Yenidən
+        Oyna</button>
+</div>
+
+<script>
+    let answered = false;
+    let score = 0;
+
+    function checkAnswer(isClean) {
+        if (answered) return;
+        answered = true;
+
+        const messageEl = document.getElementById('message');
+        const scoreEl = document.getElementById('score');
+        const restartBtn = document.getElementById('restart-btn');
+
+        if (isClean) {
+            score = 10;
+            messageEl.innerText = "✨ Afərin! Təmiz mühitdə hər kəs xoşbəxt yaşayar!";
+            messageEl.style.color = "green";
+            saveScore(10);
+        } else {
+            messageEl.innerText = "😕 Xeyr... Çirkli hava və zibil təbiətə ziyandır.";
+            messageEl.style.color = "red";
+        }
+        scoreEl.innerText = score;
+        restartBtn.style.display = "inline-block";
+    }
+
+    // Hover effect
+    document.querySelectorAll('.env-option').forEach(el => {
+        el.addEventListener('mouseover', () => el.style.transform = 'scale(1.05)');
+        el.addEventListener('mouseout', () => el.style.transform = 'scale(1)');
+    });
+</script>
+{% endblock %}
